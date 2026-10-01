@@ -3,7 +3,7 @@
 // write it once here. This is the same idea as the $.ajax calls in the old
 // jQuery version - just wrapped in one reusable function.
 
-const API_BASE = "http://127.0.0.1:5000/api";
+const API_BASE = "http://localhost:5000/api";
 
 export async function apiRequest(path, { method = "GET", body } = {}) {
   const res = await fetch(API_BASE + path, {

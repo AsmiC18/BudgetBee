@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
+const insightRoutes = require("./routes/insights");
+
 
 const app = express();
 
@@ -34,11 +36,13 @@ const goalRoutes = require("./routes/goals");
 const budgetRoutes = require("./routes/budget");
 const adminRoutes = require("./routes/admin");
 
+
 app.use("/api/admin", adminRoutes);
 app.use("/api/budgets", budgetRoutes);
 app.use("/api/goals", goalRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/insights", insightRoutes);
 
 app.listen(5000, () => console.log("Server running on port 5000"));

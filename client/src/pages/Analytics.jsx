@@ -22,6 +22,26 @@ export default function Analytics() {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
 
+    // AI Insights state. These hooks must stay above the early `return`s below
+  // (React requires hooks to run in the same order on every render).
+  const [insightData, setInsightData] = useState(null);
+  const [insightLoading, setInsightLoading] = useState(false);
+  const [insightError, setInsightError] = useState("");
+
+  async function generateInsights() {
+    setInsightLoading(true);
+    setInsightError("");
+    try {
+      // The server works out this month's totals and asks OpenAI to interpret them.
+      const data = await apiRequest("/insights");
+      setInsightData(data);
+    } catch (err) {
+      setInsightError(err.message);
+    } finally {
+      setInsightLoading(false);
+    }
+  }
+
   useEffect(() => {
     apiRequest(`/transactions?userId=${user._id}`)
       .then(setTransactions)
@@ -106,6 +126,50 @@ export default function Analytics() {
             <div className="summary-label">Transactions</div>
             <div className="summary-amount">{transactions.length}</div>
           </div>
+        </div>
+
+                <div className="chart-card insight-card">
+          <div className="insight-header">
+            <div className="chart-title">✨ AI Insights</div>
+            <button
+              className="insight-btn"
+              onClick={generateInsights}
+              disabled={insightLoading}
+            >
+              {insightLoading
+                ? "Analyzing..."
+                : insightData
+                ? "Regenerate"
+                : "Generate insights"}
+            </button>
+          </div>
+
+          {!insightData && !insightLoading && !insightError && (
+            <p className="insight-hint">
+              Get a short AI analysis of this month's spending.
+            </p>
+          )}
+
+          {insightError && <p className="insight-error">{insightError}</p>}
+
+          {insightData && insightData.insights.length === 0 && (
+            <p className="insight-hint">
+              {insightData.message || "No insights available."}
+            </p>
+          )}
+
+          {insightData && insightData.insights.length > 0 && (
+            <>
+              <div className="insight-month">
+                {insightData.month} · ₹{insightData.totalSpent.toLocaleString()} spent
+              </div>
+              <ul className="insight-list">
+                {insightData.insights.map((text, i) => (
+                  <li key={i}>{text}</li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
 
         <div className="chart-card">

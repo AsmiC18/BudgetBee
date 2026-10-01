@@ -818,3 +818,64 @@ body {
     grid-template-columns: 80px 1fr 70px;
   }
 }
+/* ---------- AI Insights card ---------- */
+
+.insight-card {
+  border-left: 4px solid var(--green);
+}
+
+.insight-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.insight-header .chart-title {
+  margin-bottom: 0;
+}
+
+.insight-btn {
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.insight-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.insight-hint {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.insight-error {
+  color: var(--red);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.insight-month {
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.insight-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  line-height: 1.6;
+  font-size: 0.92rem;
+}
+
+.insight-list li {
+  margin-bottom: 0.4rem;
+}
